@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven'
 
     id 'idea'
     id 'eclipse'
@@ -31,6 +32,47 @@ dependencies {
 
 license {
     header file('HEADER.txt')
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            if (System.getenv('MAVEN_RELEASES') != null) {
+                repository(url: 'file://' + System.getenv('MAVEN_RELEASES'))
+                snapshotRepository(url: 'file://' + System.getenv('MAVEN_SNAPSHOTS'))
+            }
+
+            pom {
+                artifactId = project.archivesBaseName.toLowerCase()
+
+                project {
+                    name = project.archivesBaseName
+                    description = project.description
+                    packaging = 'jar'
+                    url = project.url
+
+                    scm {
+                        url = 'https://github.com/jamierocks/MiniMixin'
+                        connection = 'scm:git:https://github.com/jamierocks/MiniMixin.git'
+                        developerConnection = 'scm:git:git@github.com:jamierocks/MiniMixin.git'
+                    }
+
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/jamierocks/MiniMixin/issues'
+                    }
+
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'http://opensource.org/licenses/MIT'
+                            distribution = 'repo'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 task wrapper(type: Wrapper) {
