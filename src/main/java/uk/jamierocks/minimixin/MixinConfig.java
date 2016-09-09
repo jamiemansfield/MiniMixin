@@ -24,11 +24,13 @@
 
 package uk.jamierocks.minimixin;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class MixinConfig {
 
-    private String packageName;
+    @SerializedName("package") private String packageName;
     private List<String> mixins;
 
     public String getPackageName() {
